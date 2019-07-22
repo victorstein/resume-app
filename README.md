@@ -15,6 +15,17 @@ JavaScript Standard
 * [expo](https://expo.io/) As the SDK
 * [React Native](https://mongoosejs.com/) As the main Framework
 
+## Current progress
+
+You can check the current progress using the expo app:
+
+* [expo](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en) from the playstore
+
+And then opening the following link:
+
+* [Resume-app](https://expo.io/@victorstein/resume-app)
+
+
 ## Roadmap
 
 | FEATURE | STATUS | DESCRIPTION
@@ -34,6 +45,7 @@ JavaScript Standard
 |Automatic visit notification |PENDING| A simple notification through IFTT that tells me when someone visited my app
 |Snackbar messages |PENDING| Animated snackbars that informs visitors about IFTT messages
 |Deployment  |PENDING| Releasing to playstore
+|iOS Testing |PENDING| Test iOS compatibility
 
 ## Author
 

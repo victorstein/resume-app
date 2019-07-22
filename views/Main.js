@@ -60,12 +60,6 @@ export default () => {
         )}
       >
         <MainCard style={{ width: headerWidthData }} dataOpacity={dataOpacity} />
-        <MainCard />
-        <MainCard />
-        <MainCard />
-        <MainCard />
-        <MainCard />
-        <MainCard />
       </ScrollView>
     </View>
   )

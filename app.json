@@ -20,13 +20,16 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/media/*",
+      "assets/*"
     ],
     "ios": {
       "supportsTablet": true
     },
     "androidStatusBar": {
       "backgroundColor": "#1E1E1E"
-    }
+    },
+    "description": "This is a work in progress to migrate my resume from React to React Native.\n\n",
+    "githubUrl": "https://github.com/victorstein/resume-app"
   }
 }
