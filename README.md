@@ -18,11 +18,12 @@ JavaScript Standard
 ## Roadmap
 
 | FEATURE | STATUS | DESCRIPTION
-| ------ | ------ | ------ | -------------
+| ------ | ------ | ------
 |API connection |PENDING| Connection to resume API
 |Main info card layout |COMPLETE| Infomational card reflecting my contact information
 |Porfolio  |PENDING| Collection of current and previous projects
 |Intents  |PENDING| Trigger applications based on uri
+|Splash screen  |COMPLETE| Animated splashscreen to greet users and cache assets
 |Caching media | PENDING | Media needs to be chached in splash screen to have icons and images available at load time
 |Animated scroll | Pending | Need to implement native smooth scroll with opacity changes on newly shown items
 |Animated Header  |IN PROGRESS| Animating the header on scroll to fit the top of the screen
