@@ -65,7 +65,7 @@ export default () => {
         <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
         <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
       </ScrollView>
-      <Snackbar />
+      <Snackbar messages={messages} />
     </View>
   )
 }
