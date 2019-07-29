@@ -1,9 +1,17 @@
-import React, { memo } from 'react'
-import { View, Text } from 'react-native'
+import React, { memo, useEffect, useContext } from 'react'
+import { View } from 'react-native'
 import Square from './square'
 import Overlay from './overlay'
+import Text from './text'
+import { MainStore } from '../App'
 
 export default memo((props) => {
+  const { mutation } = useContext(MainStore)
+
+  useEffect(() => {
+    mutation.loadAssets()
+  }, [])
+
   return (
     <>
       <Overlay />
@@ -16,6 +24,7 @@ export default memo((props) => {
             styles.mainText,
             styles.textShadow
           ]}
+          fontFamily='bold'
         >
           Alfonso Gomez
         </Text>

@@ -1,5 +1,9 @@
 import React, { createContext, useState, useEffect } from 'react'
-import { YellowBox } from 'react-native'
+import { YellowBox, Image } from 'react-native'
+import { Asset } from 'expo-asset'
+import { Font, AppLoading } from 'expo'
+import { Provider as PaperProvider } from 'react-native-paper'
+import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import Splash from './components/splash'
 import Main from './views/Main'
 
@@ -11,26 +15,73 @@ export default () => {
 
   const [state, setState] = useState({
     loading: true,
-    animationComplete: false
+    animationComplete: false,
+    loadingFonts: true
   })
 
-  useEffect(() => {
-    setTimeout(_ => setState({ loading: false }), 0)
-  }, [])
+  const cacheImages = (images) => {
+    return images.map(image => {
+      if (typeof image === 'string') {
+        return Image.prefetch(image)
+      } else {
+        return Asset.fromModule(image).downloadAsync()
+      }
+    })
+  }
+
+  const loadFonts = async () => {
+    let fonts = Font.loadAsync({
+      'light': require('./assets/fonts/Raleway-Light.ttf'),
+      'regular': require('./assets/fonts/Raleway-Regular.ttf'),
+      'bold': require('./assets/fonts/Raleway-Bold.ttf')
+    })
+    return Promise.all([
+      fonts
+    ])
+  }
+
+  const loadAssets = async () => {
+    try {
+      await cacheImages([
+        require('./assets/media/profile.jpg'),
+        require('./assets/media/background.jpg')
+      ])
+      await Font.loadAsync(FontAwesome.font)
+      await Font.loadAsync(Ionicons.font)
+      setState({ ...state, loading: false })
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   return (
-    <MainStore.Provider value={{
-      query: state,
-      mutation: {
-        stopLoading: () => setState({ ...state, loading: false }),
-        animationComplete: () => setState({ ...state, animationComplete: true })
-      }
-    }}>
+    <>
       {
-        state.animationComplete
-          ? <Main />
-          : <Splash />
+        state.loadingFonts
+          ? <AppLoading
+            startAsync={loadFonts}
+            onFinish={() => {
+              setState({ ...state, loadingFonts: false })
+            }}
+            onError={(e) => console.log(e)}
+          />
+          : <MainStore.Provider value={{
+            query: state,
+            mutation: {
+              stopLoading: () => setState({ ...state, loading: false }),
+              animationComplete: () => setState({ ...state, animationComplete: true }),
+              loadAssets: () => loadAssets()
+            }
+          }}>
+            <PaperProvider>
+              {
+                state.animationComplete
+                  ? <Main />
+                  : <Splash />
+              }
+            </PaperProvider>
+          </MainStore.Provider>
       }
-    </MainStore.Provider>
+    </>
   )
 }

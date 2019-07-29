@@ -2,34 +2,29 @@ import React, { useState } from 'react'
 import { View, ScrollView, Dimensions, Animated, Image } from 'react-native'
 import Overlay from '../components/overlay'
 import MainCard from '../components/mainCard'
+import Snackbar from '../components/snackbar'
+
+const messages = [
+  { duration: 2000, message: 'Welcome!' },
+  { duration: 6000, message: 'Hope you don\'t mind, but I am currently using a simple script to send myself a notification to my mobile phone' },
+  { duration: 4000, message: 'You know, just be sure that you opened my resume...' },
+  { duration: 2000, message: 'Sending...' },
+  { duration: 4500, message: 'All right! Ill let you read my resume and be delighted by it.' }
+]
 
 const { width, height } = Dimensions.get('window')
 
-const HEADER_MIN_HEIGHT = height / 8
-const HEADER_MAX_HEIGHT = height / 3
-const HEADER_MIN_WIDTH = width * 0.90
-const HEADER_MAX_WIDTH = width
+const BACKGROUND_MIN_HEIGHT = 70
+const BACKGROUND_MAX_HEIGHT = height / 3
 
 export default () => {
   const [state] = useState({
     scrollY: new Animated.Value(0)
   })
 
-  const headerHeightData = state.scrollY.interpolate({
-    inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
-    outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-    extrapolate: 'clamp'
-  })
-
-  const headerWidthData = state.scrollY.interpolate({
-    inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
-    outputRange: [HEADER_MIN_WIDTH, HEADER_MAX_WIDTH],
-    extrapolate: 'clamp'
-  })
-
-  const dataOpacity = state.scrollY.interpolate({
-    inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
-    outputRange: [1, 0],
+  const backgroundHeightData = state.scrollY.interpolate({
+    inputRange: [0, BACKGROUND_MAX_HEIGHT - BACKGROUND_MIN_HEIGHT],
+    outputRange: [BACKGROUND_MAX_HEIGHT, BACKGROUND_MIN_HEIGHT],
     extrapolate: 'clamp'
   })
 
@@ -37,30 +32,40 @@ export default () => {
     <View style={styles.background}>
       <Overlay />
       <Animated.View
-        style={[styles.banner, { height: headerHeightData }]}
+        style={[styles.banner, { height: backgroundHeightData }]}
       >
         <Image
           source={require('../assets/media/background.jpg')}
           resizeMode='cover'
-          style={{ width: width, height: HEADER_MAX_HEIGHT }}
+          style={{ width: width, height: BACKGROUND_MAX_HEIGHT }}
         />
       </Animated.View>
+      <View style={{ alignItems: 'center' }}>
+        { <MainCard scroll={state.scrollY} /> }
+      </View>
       <ScrollView
-        style={styles.mainContainer}
         scrollEventThrottle={16}
-        contentContainerStyle={{ alignItems: 'center' }}
+        contentContainerStyle={{ alignItems: 'center', width }}
         onScroll={Animated.event(
-          [{
-            nativeEvent: {
-              contentOffset: {
-                y: state.scrollY
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: state.scrollY
+                }
               }
             }
-          }]
+          ],
+          {
+            useNativeDriver: false
+          }
         )}
       >
-        <MainCard style={{ width: headerWidthData }} dataOpacity={dataOpacity} />
+        <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
+        <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
+        <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
       </ScrollView>
+      <Snackbar />
     </View>
   )
 }
@@ -74,8 +79,5 @@ const styles = {
   background: {
     backgroundColor: '#F5F5F5',
     flex: 1
-  },
-  mainContainer: {
-    backgroundColor: 'transparent'
   }
 }

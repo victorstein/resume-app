@@ -35,15 +35,17 @@ And then opening the following link:
 |Porfolio  |PENDING| Collection of current and previous projects
 |Intents  |PENDING| Trigger applications based on uri
 |Splash screen  |COMPLETE| Animated splashscreen to greet users and cache assets
-|Caching media | PENDING | Media needs to be chached in splash screen to have icons and images available at load time
-|Animated scroll | Pending | Need to implement native smooth scroll with opacity changes on newly shown items
-|Animated Header  |IN PROGRESS| Animating the header on scroll to fit the top of the screen
+|Caching media |COMPLETE| Media needs to be chached in splash screen to have icons and images available at load time as well as any external font
+|Animated scroll |PENDING| Need to implement native smooth scroll with opacity changes on newly shown items
+|Animated Header  |COMPLETE| Animating the header on scroll to fit the top of the screen
+|Migrate to nativeDriver |IN PROGRESS| Even though the animation of the header is complete the interpolations are not using nativeDriver properties.
 |Create education layout  |PENDING| Create layout to feed with the API
 |Create animated percent bars  |PENDING| Animated bars showing skill mastery percentage
 |Create Interest layout  |PENDING| Layout reflecting my current interests and hobbies
 |Create Events Layout |PENDING| Layout reflecting the upcoming events where I will be sharing my knowledge
-|Automatic visit notification |PENDING| A simple notification through IFTT that tells me when someone visited my app
-|Snackbar messages |PENDING| Animated snackbars that informs visitors about IFTT messages
+|Automatic visit notification |COMPLETE| A simple notification through IFTT that tells me when someone visited my app
+|Snackbar messages |COMPLETE| Animated snackbars that informs visitors about IFTT messages
+|Custom fonts |COMPLETE| Add custom fonts from google
 |Deployment  |PENDING| Releasing to playstore
 |iOS Testing |PENDING| Test iOS compatibility
 

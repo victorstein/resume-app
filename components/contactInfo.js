@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
+import Text from './text'
 
 export default ({ data, icon }) => (
-  <View style={{ flexDirection: 'row', width: '100%', alignItems: 'center' }}>
+  <View style={{ flexDirection: 'row', width: '100%', alignItems: 'center', marginBottom: 5 }}>
     <View style={{ width: '15%', alignItems: 'flex-end', justifyContent: 'center' }}>
       <FontAwesome
         name={icon}
@@ -12,7 +13,7 @@ export default ({ data, icon }) => (
       />
     </View>
     <View style={{ width: '85%', alignItems: 'flex-start', justifyContent: 'center' }}>
-      <Text style={styles.regularText}>
+      <Text style={[styles.regularText]} fontFamily='light'>
         {data}
       </Text>
     </View>
@@ -22,7 +23,7 @@ export default ({ data, icon }) => (
 const styles = {
   regularText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 14,
     marginLeft: 10
   }
 }
