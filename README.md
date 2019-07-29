@@ -33,7 +33,7 @@ And then opening the following link:
 |API connection |PENDING| Connection to resume API
 |Main info card layout |COMPLETE| Infomational card reflecting my contact information
 |Porfolio  |PENDING| Collection of current and previous projects
-|Intents  |PENDING| Trigger applications based on uri
+|Intents  |COMPLETE| Trigger applications based on uri
 |Splash screen  |COMPLETE| Animated splashscreen to greet users and cache assets
 |Caching media |COMPLETE| Media needs to be chached in splash screen to have icons and images available at load time as well as any external font
 |Animated scroll |PENDING| Need to implement native smooth scroll with opacity changes on newly shown items
