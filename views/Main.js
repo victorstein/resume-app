@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, ScrollView, Dimensions, Animated, Image, SafeAreaView } from 'react-native'
 import Overlay from '../components/overlay'
-import MainCard from '../components/mainCard'
+import MainCard, { HEADER_MARGIN_TOP } from '../components/mainCard'
 import Snackbar from '../components/snackbar'
 
 const messages = [
@@ -46,18 +46,28 @@ export default () => {
           }
         )}
       >
-        <View
-          style={styles.banner}
+        <Animated.View
+          style={[
+            styles.banner,
+            {
+              transform: [
+                {
+                  scaleY: state.scrollY.interpolate({
+                    inputRange: [0, HEADER_MARGIN_TOP],
+                    outputRange: [1, 70 / BACKGROUND_MAX_HEIGHT],
+                    extrapolate: 'clamp'
+                  })
+                }
+              ]
+            }
+          ]}
         >
           <Image
             source={require('../assets/media/background.jpg')}
             resizeMode='cover'
-            style={{
-              width: width,
-              height: BACKGROUND_MAX_HEIGHT
-            }}
+            style={{ flex: 1, width: null, height: null }}
           />
-        </View>
+        </Animated.View>
         <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
         <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
         <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />

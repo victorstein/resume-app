@@ -8,7 +8,7 @@ const { height, width } = Dimensions.get('window')
 
 const IMAGE_MAX_SIZE = 130
 const IMAGE_MIN_SIZE = 50
-const HEADER_MARGIN_TOP = (height / 3) / 2
+export const HEADER_MARGIN_TOP = (height / 3) / 2
 const HEADER_WIDTH = width
 const MAIN_TEXT_MAX_SIZE = 32
 const MAIN_TEXT_MIN_SIZE = 20
@@ -48,6 +48,36 @@ export default ({ scroll }) => {
   const imageTranslateY = scroll.interpolate({
     inputRange: [0, HEADER_MARGIN_TOP],
     outputRange: [0, -HEADER_MARGIN_TOP + IMAGE_MIN_SIZE / 2 + 10],
+    extrapolate: 'clamp'
+  })
+
+  const titleTranslateX = scroll.interpolate({
+    inputRange: [0, HEADER_MARGIN_TOP],
+    outputRange: [0, -MAIN_TEXT_MIN_SIZE / MAIN_TEXT_MAX_SIZE - 20],
+    extrapolate: 'clamp'
+  })
+
+  const titleTranslateY = scroll.interpolate({
+    inputRange: [0, HEADER_MARGIN_TOP],
+    outputRange: [0, -HEADER_MARGIN_TOP - IMAGE_MAX_SIZE / 2 - 5],
+    extrapolate: 'clamp'
+  })
+  
+  const subtitleTranslateX = scroll.interpolate({
+    inputRange: [0, HEADER_MARGIN_TOP],
+    outputRange: [0, -MAIN_TEXT_MIN_SIZE / MAIN_TEXT_MAX_SIZE - 20],
+    extrapolate: 'clamp'
+  })
+
+  const subtitleTranslateY = scroll.interpolate({
+    inputRange: [0, HEADER_MARGIN_TOP],
+    outputRange: [0, -HEADER_MARGIN_TOP - IMAGE_MAX_SIZE / 2 - 20],
+    extrapolate: 'clamp'
+  })
+
+  const titleScale = scroll.interpolate({
+    inputRange: [0, HEADER_MARGIN_TOP],
+    outputRange: [1, MAIN_TEXT_MIN_SIZE / MAIN_TEXT_MAX_SIZE],
     extrapolate: 'clamp'
   })
 
@@ -101,6 +131,57 @@ export default ({ scroll }) => {
           />
         </Animated.View>
       </Animated.View>
+      <Animated.View
+        style={[
+          styles.mainTextContainer,
+          {
+            transform: [
+              { translateX: titleTranslateX },
+              { translateY: titleTranslateY }
+            ]
+          }
+        ]}>
+        <Animated.Text
+          style={[
+            styles.mainText,
+            styles.textShadow,
+            {
+              transform: [
+                { scale: titleScale }
+              ]
+            }
+          ]}
+          fontFamily='bold'
+          numberOfLines={1}
+        >
+          Alfonso Gomez
+        </Animated.Text>
+      </Animated.View>
+      <Animated.View
+        style={[
+          styles.subHeaderTextContainer,
+          {
+            transform: [
+              { translateX: subtitleTranslateX },
+              { translateY: subtitleTranslateY }
+            ]
+          }
+        ]}>
+        <Animated.Text
+          style={[
+            styles.subHeaderText,
+            styles.textShadow,
+            {
+              transform: [
+                { scale: titleScale }
+              ]
+            }
+          ]}
+          numberOfLines={2}
+        >
+          Senior JavaScript developer
+        </Animated.Text>
+      </Animated.View>
     </>
   )
 }
@@ -134,6 +215,18 @@ const styles = {
     borderRadius: IMAGE_MAX_SIZE / 2,
     overflow: 'hidden'
   },
+  mainTextContainer: {
+    position: 'absolute',
+    marginTop: HEADER_MARGIN_TOP + IMAGE_MAX_SIZE / 2 + 10,
+    zIndex: 4,
+    elevation: 4
+  },
+  subHeaderTextContainer: {
+    position: 'absolute',
+    marginTop: HEADER_MARGIN_TOP + IMAGE_MAX_SIZE / 2 + MAIN_TEXT_MAX_SIZE + 20,
+    zIndex: 4,
+    elevation: 4
+  },
   mainText: {
     color: 'white',
     fontSize: MAIN_TEXT_MAX_SIZE,
@@ -144,7 +237,6 @@ const styles = {
     color: 'white',
     fontSize: 20,
     textAlign: 'center',
-    marginBottom: 20
   },
   textShadow: {
     textShadowColor: 'rgba(0, 0, 0, 0.65)',
