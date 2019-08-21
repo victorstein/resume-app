@@ -34,14 +34,14 @@ export default ({ scroll }) => {
   })
 
   const scaleImage = scroll.interpolate({
-    inputRange: [0, HEADER_MARGIN_TOP],
-    outputRange: [1, 50 / IMAGE_MAX_SIZE],
+    inputRange: [0, HEADER_MARGIN_TOP / 2, HEADER_MARGIN_TOP],
+    outputRange: [1, 60 / IMAGE_MAX_SIZE, 50 / IMAGE_MAX_SIZE],
     extrapolate: 'clamp'
   })
 
   const imageTranslateX = scroll.interpolate({
-    inputRange: [0, HEADER_MARGIN_TOP],
-    outputRange: [0, -width / 2 + IMAGE_MIN_SIZE / 2 + 15],
+    inputRange: [0, HEADER_MARGIN_TOP / 2, HEADER_MARGIN_TOP],
+    outputRange: [0, -width / 2 + IMAGE_MIN_SIZE / 2 + 25, -width / 2 + IMAGE_MIN_SIZE / 2 + 15],
     extrapolate: 'clamp'
   })
 
@@ -78,6 +78,18 @@ export default ({ scroll }) => {
   const titleScale = scroll.interpolate({
     inputRange: [0, HEADER_MARGIN_TOP],
     outputRange: [1, MAIN_TEXT_MIN_SIZE / MAIN_TEXT_MAX_SIZE],
+    extrapolate: 'clamp'
+  })
+
+  const contactInfoOpacity = scroll.interpolate({
+    inputRange: [0, 70],
+    outputRange: [1, 0],
+    extrapolate: 'clamp'
+  })
+
+  const contactInfoTranslateY = scroll.interpolate({
+    inputRange: [0, HEADER_MARGIN_TOP],
+    outputRange: [0, -HEADER_MARGIN_TOP - IMAGE_MAX_SIZE / 2 - 20],
     extrapolate: 'clamp'
   })
 
@@ -182,6 +194,21 @@ export default ({ scroll }) => {
           Senior JavaScript developer
         </Animated.Text>
       </Animated.View>
+      <Animated.View
+        style={[
+          styles.contactInfoContainer,
+          {
+            opacity: contactInfoOpacity,
+            transform: [
+              { translateY: contactInfoTranslateY }
+            ]
+          }
+        ]}
+      >
+        <ContactInfo data='stein.hakase.vs@gmail.com' icon='envelope' />
+        <ContactInfo data='(505) 8682-6131' icon='phone' />
+        <ContactInfo data='Managua, Nicaragua' icon='map-marker' />
+      </Animated.View>
     </>
   )
 }
@@ -248,6 +275,16 @@ const styles = {
     height: '100%',
     backgroundColor: '#1B9FC6',
     position: 'absolute'
+  },
+  contactInfoContainer: {
+    position: 'absolute',
+    width: width * 0.9,
+    alignItems: 'center',
+    paddingHorizontal: HEADER_WIDTH * 0.05,
+    marginTop: HEADER_MARGIN_TOP + IMAGE_MAX_SIZE + 30,
+    zIndex: 4,
+    elevation: 4,
+    alignSelf: 'center'
   }
 }
 

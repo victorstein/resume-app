@@ -5,14 +5,14 @@ import Text from './text'
 
 export default ({ data, icon }) => (
   <View style={{ flexDirection: 'row', width: '100%', alignItems: 'center', marginBottom: 5 }}>
-    <View style={{ width: '15%', alignItems: 'flex-end', justifyContent: 'center' }}>
+    <View style={{ width: '25%', alignItems: 'flex-end', justifyContent: 'center' }}>
       <FontAwesome
         name={icon}
         color='white'
         size={16}
       />
     </View>
-    <View style={{ width: '85%', alignItems: 'flex-start', justifyContent: 'center' }}>
+    <View style={{ width: '75%', alignItems: 'flex-start', justifyContent: 'center' }}>
       <Text style={[styles.regularText]} fontFamily='light'>
         {data}
       </Text>
