@@ -62,7 +62,7 @@ export default ({ scroll }) => {
     outputRange: [0, -HEADER_MARGIN_TOP - IMAGE_MAX_SIZE / 2 - 5],
     extrapolate: 'clamp'
   })
-  
+
   const subtitleTranslateX = scroll.interpolate({
     inputRange: [0, HEADER_MARGIN_TOP],
     outputRange: [0, -MAIN_TEXT_MIN_SIZE / MAIN_TEXT_MAX_SIZE - 20],
