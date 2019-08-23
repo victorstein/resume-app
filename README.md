@@ -38,7 +38,7 @@ And then opening the following link:
 |Caching media |COMPLETE| Media needs to be chached in splash screen to have icons and images available at load time as well as any external font
 |Animated scroll |PENDING| Need to implement native smooth scroll with opacity changes on newly shown items
 |Animated Header  |COMPLETE| Animating the header on scroll to fit the top of the screen
-|Migrate to nativeDriver |IN PROGRESS| Even though the animation of the header is complete the interpolations are not using nativeDriver properties.
+|Migrate to nativeDriver |COMPLETE| Even though the animation of the header is complete the interpolations are not using nativeDriver properties.
 |Create education layout  |PENDING| Create layout to feed with the API
 |Create animated percent bars  |PENDING| Animated bars showing skill mastery percentage
 |Create Interest layout  |PENDING| Layout reflecting my current interests and hobbies
