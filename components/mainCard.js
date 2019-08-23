@@ -8,7 +8,7 @@ const { height, width } = Dimensions.get('window')
 
 const IMAGE_MAX_SIZE = 130
 const IMAGE_MIN_SIZE = 50
-const HEADER_MARGIN_TOP = (height / 3) / 2
+export const HEADER_MARGIN_TOP = (height / 3) / 2
 const HEADER_WIDTH = width
 const MAIN_TEXT_MAX_SIZE = 32
 const MAIN_TEXT_MIN_SIZE = 20
@@ -34,20 +34,68 @@ export default ({ scroll }) => {
   })
 
   const scaleImage = scroll.interpolate({
-    inputRange: [0, HEADER_MARGIN_TOP],
-    outputRange: [1, 50 / IMAGE_MAX_SIZE],
+    inputRange: [0, HEADER_MARGIN_TOP / 2, HEADER_MARGIN_TOP],
+    outputRange: [1, 60 / IMAGE_MAX_SIZE, 50 / IMAGE_MAX_SIZE],
     extrapolate: 'clamp'
   })
 
   const imageTranslateX = scroll.interpolate({
-    inputRange: [0, HEADER_MARGIN_TOP],
-    outputRange: [0, -width / 2 + IMAGE_MIN_SIZE / 2 + 15],
+    inputRange: [0, HEADER_MARGIN_TOP / 2, HEADER_MARGIN_TOP],
+    outputRange: [0, -width / 2 + IMAGE_MIN_SIZE / 2 + 25, -width / 2 + IMAGE_MIN_SIZE / 2 + 15],
     extrapolate: 'clamp'
   })
 
   const imageTranslateY = scroll.interpolate({
     inputRange: [0, HEADER_MARGIN_TOP],
     outputRange: [0, -HEADER_MARGIN_TOP + IMAGE_MIN_SIZE / 2 + 10],
+    extrapolate: 'clamp'
+  })
+
+  const titleTranslateX = scroll.interpolate({
+    inputRange: [0, HEADER_MARGIN_TOP],
+    outputRange: [0, -MAIN_TEXT_MIN_SIZE / MAIN_TEXT_MAX_SIZE - 20],
+    extrapolate: 'clamp'
+  })
+
+  const titleTranslateY = scroll.interpolate({
+    inputRange: [0, HEADER_MARGIN_TOP],
+    outputRange: [0, -HEADER_MARGIN_TOP - IMAGE_MAX_SIZE / 2 - 5],
+    extrapolate: 'clamp'
+  })
+
+  const subtitleTranslateX = scroll.interpolate({
+    inputRange: [0, HEADER_MARGIN_TOP],
+    outputRange: [0, -MAIN_TEXT_MIN_SIZE / MAIN_TEXT_MAX_SIZE - 20],
+    extrapolate: 'clamp'
+  })
+
+  const subtitleTranslateY = scroll.interpolate({
+    inputRange: [0, HEADER_MARGIN_TOP],
+    outputRange: [0, -HEADER_MARGIN_TOP - IMAGE_MAX_SIZE / 2 - 20],
+    extrapolate: 'clamp'
+  })
+
+  const titleScale = scroll.interpolate({
+    inputRange: [0, HEADER_MARGIN_TOP],
+    outputRange: [1, MAIN_TEXT_MIN_SIZE / MAIN_TEXT_MAX_SIZE],
+    extrapolate: 'clamp'
+  })
+
+  const contactInfoOpacity = scroll.interpolate({
+    inputRange: [0, 70],
+    outputRange: [1, 0],
+    extrapolate: 'clamp'
+  })
+
+  const socialMediaOpacity = scroll.interpolate({
+    inputRange: [0, 35],
+    outputRange: [1, 0],
+    extrapolate: 'clamp'
+  })
+
+  const contactInfoTranslateY = scroll.interpolate({
+    inputRange: [0, HEADER_MARGIN_TOP],
+    outputRange: [0, -HEADER_MARGIN_TOP - IMAGE_MAX_SIZE / 2 - 20],
     extrapolate: 'clamp'
   })
 
@@ -101,6 +149,86 @@ export default ({ scroll }) => {
           />
         </Animated.View>
       </Animated.View>
+      <Animated.View
+        style={[
+          styles.mainTextContainer,
+          {
+            transform: [
+              { translateX: titleTranslateX },
+              { translateY: titleTranslateY }
+            ]
+          }
+        ]}>
+        <Animated.Text
+          style={[
+            styles.mainText,
+            styles.textShadow,
+            {
+              transform: [
+                { scale: titleScale }
+              ]
+            }
+          ]}
+          fontFamily='bold'
+          numberOfLines={1}
+        >
+          Alfonso Gomez
+        </Animated.Text>
+      </Animated.View>
+      <Animated.View
+        style={[
+          styles.subHeaderTextContainer,
+          {
+            transform: [
+              { translateX: subtitleTranslateX },
+              { translateY: subtitleTranslateY }
+            ]
+          }
+        ]}>
+        <Animated.Text
+          style={[
+            styles.subHeaderText,
+            styles.textShadow,
+            {
+              transform: [
+                { scale: titleScale }
+              ]
+            }
+          ]}
+          numberOfLines={2}
+        >
+          Senior JavaScript developer
+        </Animated.Text>
+      </Animated.View>
+      <Animated.View
+        style={[
+          styles.contactInfoContainer,
+          {
+            opacity: contactInfoOpacity,
+            transform: [
+              { translateY: contactInfoTranslateY }
+            ]
+          }
+        ]}
+      >
+        <ContactInfo data='stein.hakase.vs@gmail.com' icon='envelope' />
+        <ContactInfo data='(505) 8682-6131' icon='phone' />
+        <ContactInfo data='Managua, Nicaragua' icon='map-marker' />
+      </Animated.View>
+      <Animated.View style={[
+        styles.socialMediaContainer,
+        {
+          opacity: socialMediaOpacity,
+          transform: [
+            { translateY: contactInfoTranslateY }
+          ]
+        }
+      ]}>
+        <SocialMedia icon='facebook' link='https://www.facebook.com/steinhakase22' deepLink='fb://profile/1001751782' />
+        <SocialMedia icon='github' link='https://github.com/victorstein' />
+        <SocialMedia icon='logo-npm' type='ionIcons' link='https://www.npmjs.com/~steinhakasevs' />
+        <SocialMedia icon='logo-whatsapp' type='ionIcons' deepLink='https://wa.me/50586826131' />
+      </Animated.View>
     </>
   )
 }
@@ -134,6 +262,18 @@ const styles = {
     borderRadius: IMAGE_MAX_SIZE / 2,
     overflow: 'hidden'
   },
+  mainTextContainer: {
+    position: 'absolute',
+    marginTop: HEADER_MARGIN_TOP + IMAGE_MAX_SIZE / 2 + 10,
+    zIndex: 4,
+    elevation: 4
+  },
+  subHeaderTextContainer: {
+    position: 'absolute',
+    marginTop: HEADER_MARGIN_TOP + IMAGE_MAX_SIZE / 2 + MAIN_TEXT_MAX_SIZE + 20,
+    zIndex: 4,
+    elevation: 4
+  },
   mainText: {
     color: 'white',
     fontSize: MAIN_TEXT_MAX_SIZE,
@@ -144,7 +284,6 @@ const styles = {
     color: 'white',
     fontSize: 20,
     textAlign: 'center',
-    marginBottom: 20
   },
   textShadow: {
     textShadowColor: 'rgba(0, 0, 0, 0.65)',
@@ -156,6 +295,27 @@ const styles = {
     height: '100%',
     backgroundColor: '#1B9FC6',
     position: 'absolute'
+  },
+  contactInfoContainer: {
+    position: 'absolute',
+    width: width * 0.9,
+    alignItems: 'center',
+    paddingHorizontal: HEADER_WIDTH * 0.05,
+    marginTop: HEADER_MARGIN_TOP + IMAGE_MAX_SIZE + 30,
+    zIndex: 4,
+    elevation: 4,
+    alignSelf: 'center'
+  },
+  socialMediaContainer: {
+    position: 'absolute',
+    width: width * 0.9,
+    justifyContent: 'center',
+    paddingHorizontal: HEADER_WIDTH * 0.05,
+    marginTop: HEADER_MARGIN_TOP + IMAGE_MAX_SIZE + 120,
+    zIndex: 4,
+    elevation: 4,
+    flexDirection: 'row',
+    alignSelf: 'center'
   }
 }
 

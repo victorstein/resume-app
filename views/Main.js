@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { View, ScrollView, Dimensions, Animated, Image, SafeAreaView } from 'react-native'
+import React, { useRef } from 'react'
+import { View, Dimensions, Animated, Image, SafeAreaView } from 'react-native'
 import Overlay from '../components/overlay'
-import MainCard from '../components/mainCard'
+import MainCard, { HEADER_MARGIN_TOP } from '../components/mainCard'
 import Snackbar from '../components/snackbar'
 
 const messages = [
@@ -17,26 +17,53 @@ const { width, height } = Dimensions.get('window')
 const BACKGROUND_MAX_HEIGHT = height / 3
 
 export default () => {
-  const [state] = useState({
-    scrollY: new Animated.Value(0)
+  const scrollY = new Animated.Value(0)
+
+  const ANIMATED_SCROLLVIEW = useRef()
+
+  const snapToPlace = Animated.event([
+    {
+      nativeEvent: {
+        contentOffset: {
+          y: new Animated.Value(0)
+        }
+      }
+    }
+  ], {
+    useNativeDriver: true,
+    listener: (e) => {
+      if (e.nativeEvent.contentOffset.y < 60) {
+        ANIMATED_SCROLLVIEW.current._component.scrollTo({
+          y: 0,
+          animated: true
+        })
+      } else if (e.nativeEvent.contentOffset.y >= 60 && e.nativeEvent.contentOffset.y < HEADER_MARGIN_TOP) {
+        ANIMATED_SCROLLVIEW.current._component.scrollTo({
+          y: 125,
+          animated: true
+        })
+      }
+    }
   })
 
   return (
     <SafeAreaView style={styles.background}>
       <Overlay />
       <View style={{ alignItems: 'center' }}>
-        <MainCard scroll={state.scrollY} />
+        <MainCard scroll={scrollY} />
       </View>
       <Animated.ScrollView
         scrollEventThrottle={16}
         contentContainerStyle={{ alignItems: 'center', width }}
         overScrollMode='never'
+        ref={ANIMATED_SCROLLVIEW}
+        onMomentumScrollEnd={snapToPlace}
         onScroll={Animated.event(
           [
             {
               nativeEvent: {
                 contentOffset: {
-                  y: state.scrollY
+                  y: scrollY
                 }
               }
             }
@@ -46,18 +73,28 @@ export default () => {
           }
         )}
       >
-        <View
-          style={styles.banner}
+        <Animated.View
+          style={[
+            styles.banner,
+            {
+              transform: [
+                {
+                  scaleY: scrollY.interpolate({
+                    inputRange: [0, HEADER_MARGIN_TOP],
+                    outputRange: [1, 70 / BACKGROUND_MAX_HEIGHT],
+                    extrapolate: 'clamp'
+                  })
+                }
+              ]
+            }
+          ]}
         >
           <Image
             source={require('../assets/media/background.jpg')}
             resizeMode='cover'
-            style={{
-              width: width,
-              height: BACKGROUND_MAX_HEIGHT
-            }}
+            style={{ flex: 1, width: null, height: null }}
           />
-        </View>
+        </Animated.View>
         <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
         <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
         <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
