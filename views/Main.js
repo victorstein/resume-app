@@ -21,19 +21,30 @@ export default () => {
 
   const ANIMATED_SCROLLVIEW = useRef()
 
-  const snapToPlace = (e) => {
-    if (e.nativeEvent.contentOffset.y < 60) {
-      ANIMATED_SCROLLVIEW.current._component.scrollTo({
-        y: 0,
-        animated: true
-      })
-    } else if (e.nativeEvent.contentOffset.y >= 60 && e.nativeEvent.contentOffset.y < HEADER_MARGIN_TOP) {
-      ANIMATED_SCROLLVIEW.current._component.scrollTo({
-        y: 125,
-        animated: true
-      })
+  const snapToPlace = Animated.event([
+    {
+      nativeEvent: {
+        contentOffset: {
+          y: new Animated.Value(0)
+        }
+      }
     }
-  }
+  ], {
+    useNativeDriver: true,
+    listener: (e) => {
+      if (e.nativeEvent.contentOffset.y < 60) {
+        ANIMATED_SCROLLVIEW.current._component.scrollTo({
+          y: 0,
+          animated: true
+        })
+      } else if (e.nativeEvent.contentOffset.y >= 60 && e.nativeEvent.contentOffset.y < HEADER_MARGIN_TOP) {
+        ANIMATED_SCROLLVIEW.current._component.scrollTo({
+          y: 125,
+          animated: true
+        })
+      }
+    }
+  })
 
   return (
     <SafeAreaView style={styles.background}>

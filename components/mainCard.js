@@ -87,6 +87,12 @@ export default ({ scroll }) => {
     extrapolate: 'clamp'
   })
 
+  const socialMediaOpacity = scroll.interpolate({
+    inputRange: [0, 35],
+    outputRange: [1, 0],
+    extrapolate: 'clamp'
+  })
+
   const contactInfoTranslateY = scroll.interpolate({
     inputRange: [0, HEADER_MARGIN_TOP],
     outputRange: [0, -HEADER_MARGIN_TOP - IMAGE_MAX_SIZE / 2 - 20],
@@ -209,6 +215,20 @@ export default ({ scroll }) => {
         <ContactInfo data='(505) 8682-6131' icon='phone' />
         <ContactInfo data='Managua, Nicaragua' icon='map-marker' />
       </Animated.View>
+      <Animated.View style={[
+        styles.socialMediaContainer,
+        {
+          opacity: socialMediaOpacity,
+          transform: [
+            { translateY: contactInfoTranslateY }
+          ]
+        }
+      ]}>
+        <SocialMedia icon='facebook' link='https://www.facebook.com/steinhakase22' deepLink='fb://profile/1001751782' />
+        <SocialMedia icon='github' link='https://github.com/victorstein' />
+        <SocialMedia icon='logo-npm' type='ionIcons' link='https://www.npmjs.com/~steinhakasevs' />
+        <SocialMedia icon='logo-whatsapp' type='ionIcons' deepLink='https://wa.me/50586826131' />
+      </Animated.View>
     </>
   )
 }
@@ -284,6 +304,17 @@ const styles = {
     marginTop: HEADER_MARGIN_TOP + IMAGE_MAX_SIZE + 30,
     zIndex: 4,
     elevation: 4,
+    alignSelf: 'center'
+  },
+  socialMediaContainer: {
+    position: 'absolute',
+    width: width * 0.9,
+    justifyContent: 'center',
+    paddingHorizontal: HEADER_WIDTH * 0.05,
+    marginTop: HEADER_MARGIN_TOP + IMAGE_MAX_SIZE + 120,
+    zIndex: 4,
+    elevation: 4,
+    flexDirection: 'row',
     alignSelf: 'center'
   }
 }
