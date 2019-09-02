@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react'
+import React, { createContext, useState } from 'react'
 import { YellowBox, Image } from 'react-native'
 import { Asset } from 'expo-asset'
 import { AppLoading } from 'expo'
