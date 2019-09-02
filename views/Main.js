@@ -3,6 +3,7 @@ import { View, Dimensions, Animated, Image, SafeAreaView, Text } from 'react-nat
 import Overlay from '../components/overlay'
 import MainCard, { HEADER_MARGIN_TOP, IMAGE_MIN_SIZE } from '../components/mainCard'
 import Snackbar from '../components/snackbar'
+import IntroductoryCard from '../components/introductoryCard'
 
 const messages = [
   { duration: 2000, message: 'Welcome!' },
@@ -55,7 +56,7 @@ export default () => {
   return (
     <SafeAreaView style={styles.background}>
       <Overlay />
-      <Animated.View style={[styles.replacementHeader, { opacity: replacementHeaderOpacity }]}>
+      {/* <Animated.View style={[styles.replacementHeader, { opacity: replacementHeaderOpacity }]}>
         <View style={styles.imageContainer}>
           <Image
             source={require('../assets/media/profile.jpg')}
@@ -68,10 +69,10 @@ export default () => {
             Senior Javascript developer
           </Text>
         </View>
-      </Animated.View>
+      </Animated.View> */}
       <Animated.ScrollView
         scrollEventThrottle={16}
-        contentContainerStyle={{ alignItems: 'center', width }}
+        contentContainerStyle={{ alignItems: 'center', width, backgroundColor: '#f5f5f5' }}
         overScrollMode='never'
         ref={ANIMATED_SCROLLVIEW}
         onMomentumScrollEnd={snapToPlace}
@@ -115,11 +116,9 @@ export default () => {
             style={{ flex: 1, width: null, height: null }}
           />
         </Animated.View>
-        <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
-        <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
-        <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
+        <IntroductoryCard />
       </Animated.ScrollView>
-      <Snackbar messages={messages} />
+      <Snackbar messages />
     </SafeAreaView>
   )
 }

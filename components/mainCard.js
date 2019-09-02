@@ -20,12 +20,6 @@ export default ({ scroll }) => {
     extrapolate: 'clamp'
   })
 
-  const headerOpacity = scroll.interpolate({
-    inputRange: [HEADER_MARGIN_TOP + 1, HEADER_MARGIN_TOP + 2],
-    outputRange: [1, 0],
-    extrapolate: 'clamp'
-  })
-
   const headerHeight = scroll.interpolate({
     inputRange: [0, HEADER_MARGIN_TOP],
     outputRange: [1, 70 / HEADER_MAX_HEIGHT],
@@ -112,8 +106,7 @@ export default ({ scroll }) => {
           {
             transform: [
               { translateY: translateHeader }
-            ],
-            opacity: headerOpacity
+            ]
           }
         ]}
       >
