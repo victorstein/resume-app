@@ -31,10 +31,10 @@ export default () => {
   }
 
   const loadFonts = async () => {
-    let fonts = Font.loadAsync({
-      'light': require('./assets/fonts/Raleway-Light.ttf'),
-      'regular': require('./assets/fonts/Raleway-Regular.ttf'),
-      'bold': require('./assets/fonts/Raleway-Bold.ttf')
+    const fonts = Font.loadAsync({
+      light: require('./assets/fonts/Raleway-Light.ttf'),
+      regular: require('./assets/fonts/Raleway-Regular.ttf'),
+      bold: require('./assets/fonts/Raleway-Bold.ttf')
     })
     return Promise.all([
       fonts
@@ -81,7 +81,7 @@ export default () => {
                   : <Splash />
               }
             </PaperProvider>
-          </MainStore.Provider>
+            </MainStore.Provider>
       }
     </>
   )

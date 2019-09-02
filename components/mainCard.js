@@ -1,13 +1,12 @@
 import React from 'react'
-import { Image, Dimensions, Animated, View } from 'react-native'
+import { Image, Dimensions, Animated } from 'react-native'
 import ContactInfo from '../components/contactInfo'
 import SocialMedia from '../components/socialMedia'
-import Text from '../components/text'
 
 const { height, width } = Dimensions.get('window')
 
 const IMAGE_MAX_SIZE = 130
-const IMAGE_MIN_SIZE = 50
+export const IMAGE_MIN_SIZE = 50
 export const HEADER_MARGIN_TOP = (height / 3) / 2
 const HEADER_WIDTH = width
 const MAIN_TEXT_MAX_SIZE = 32
@@ -21,6 +20,12 @@ export default ({ scroll }) => {
     extrapolate: 'clamp'
   })
 
+  const headerOpacity = scroll.interpolate({
+    inputRange: [HEADER_MARGIN_TOP + 1, HEADER_MARGIN_TOP + 2],
+    outputRange: [1, 0],
+    extrapolate: 'clamp'
+  })
+
   const headerHeight = scroll.interpolate({
     inputRange: [0, HEADER_MARGIN_TOP],
     outputRange: [1, 70 / HEADER_MAX_HEIGHT],
@@ -29,7 +34,7 @@ export default ({ scroll }) => {
 
   const translateHeader = scroll.interpolate({
     inputRange: [0, HEADER_MARGIN_TOP],
-    outputRange: [0, -HEADER_MARGIN_TOP - 140],
+    outputRange: [0, -140],
     extrapolate: 'clamp'
   })
 
@@ -47,7 +52,7 @@ export default ({ scroll }) => {
 
   const imageTranslateY = scroll.interpolate({
     inputRange: [0, HEADER_MARGIN_TOP],
-    outputRange: [0, -HEADER_MARGIN_TOP + IMAGE_MIN_SIZE / 2 + 10],
+    outputRange: [0, IMAGE_MIN_SIZE / 2 + 10],
     extrapolate: 'clamp'
   })
 
@@ -59,7 +64,7 @@ export default ({ scroll }) => {
 
   const titleTranslateY = scroll.interpolate({
     inputRange: [0, HEADER_MARGIN_TOP],
-    outputRange: [0, -HEADER_MARGIN_TOP - IMAGE_MAX_SIZE / 2 - 5],
+    outputRange: [0, -IMAGE_MAX_SIZE / 2 - 5],
     extrapolate: 'clamp'
   })
 
@@ -71,7 +76,7 @@ export default ({ scroll }) => {
 
   const subtitleTranslateY = scroll.interpolate({
     inputRange: [0, HEADER_MARGIN_TOP],
-    outputRange: [0, -HEADER_MARGIN_TOP - IMAGE_MAX_SIZE / 2 - 20],
+    outputRange: [0, -IMAGE_MAX_SIZE / 2 - 20],
     extrapolate: 'clamp'
   })
 
@@ -82,20 +87,20 @@ export default ({ scroll }) => {
   })
 
   const contactInfoOpacity = scroll.interpolate({
-    inputRange: [0, 70],
+    inputRange: [0, 35],
     outputRange: [1, 0],
     extrapolate: 'clamp'
   })
 
   const socialMediaOpacity = scroll.interpolate({
-    inputRange: [0, 35],
+    inputRange: [0, 18],
     outputRange: [1, 0],
     extrapolate: 'clamp'
   })
 
   const contactInfoTranslateY = scroll.interpolate({
     inputRange: [0, HEADER_MARGIN_TOP],
-    outputRange: [0, -HEADER_MARGIN_TOP - IMAGE_MAX_SIZE / 2 - 20],
+    outputRange: [0, -IMAGE_MAX_SIZE / 2 - 20],
     extrapolate: 'clamp'
   })
 
@@ -107,7 +112,8 @@ export default ({ scroll }) => {
           {
             transform: [
               { translateY: translateHeader }
-            ]
+            ],
+            opacity: headerOpacity
           }
         ]}
       >
@@ -142,7 +148,8 @@ export default ({ scroll }) => {
                 { scale: scaleImage }
               ]
             }
-          ]}>
+          ]}
+        >
           <Image
             source={require('../assets/media/profile.jpg')}
             style={{ flex: 1, width: null, height: null }}
@@ -158,7 +165,8 @@ export default ({ scroll }) => {
               { translateY: titleTranslateY }
             ]
           }
-        ]}>
+        ]}
+      >
         <Animated.Text
           style={[
             styles.mainText,
@@ -184,7 +192,8 @@ export default ({ scroll }) => {
               { translateY: subtitleTranslateY }
             ]
           }
-        ]}>
+        ]}
+      >
         <Animated.Text
           style={[
             styles.subHeaderText,
@@ -223,7 +232,8 @@ export default ({ scroll }) => {
             { translateY: contactInfoTranslateY }
           ]
         }
-      ]}>
+      ]}
+      >
         <SocialMedia icon='facebook' link='https://www.facebook.com/steinhakase22' deepLink='fb://profile/1001751782' />
         <SocialMedia icon='github' link='https://github.com/victorstein' />
         <SocialMedia icon='logo-npm' type='ionIcons' link='https://www.npmjs.com/~steinhakasevs' />
@@ -283,7 +293,7 @@ const styles = {
   subHeaderText: {
     color: 'white',
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   textShadow: {
     textShadowColor: 'rgba(0, 0, 0, 0.65)',
@@ -318,41 +328,3 @@ const styles = {
     alignSelf: 'center'
   }
 }
-
-/*
-        <View
-          style={[
-            styles.imageContainer
-          ]}>
-          <Image
-            source={require('../assets/media/profile.jpg')}
-            style={{ flex: 1, width: null, height: null }}
-          />
-        </View>
-        <Text
-          style={[
-            styles.mainText,
-            styles.textShadow
-          ]}
-          fontFamily='bold'
-          numberOfLines={1}
-        >
-          Alfonso Gomez
-        </Text>
-        <View>
-          <Text style={[ styles.subHeaderText, styles.textShadow ]} numberOfLines={2}>
-            Senior{'\n'}JavaScript developer
-          </Text>
-        </View>
-        <View style={{ width: '90%', alignItems: 'center', marginBottom: 20, alignSelf: 'center' }}>
-          <ContactInfo data='stein.hakase.vs@gmail.com' icon='envelope' />
-          <ContactInfo data='(505) 8682-6131' icon='phone' />
-          <ContactInfo data='Managua, Nicaragua' icon='map-marker' />
-        </View>
-        <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
-          <SocialMedia icon='facebook' link='https://www.facebook.com/steinhakase22' deepLink='fb://profile/1001751782' />
-          <SocialMedia icon='github' link='https://github.com/victorstein' />
-          <SocialMedia icon='logo-npm' type='ionIcons' link='https://www.npmjs.com/~steinhakasevs' />
-          <SocialMedia icon='logo-whatsapp' type='ionIcons' deepLink='https://wa.me/50586826131' />
-        </View>
-*/

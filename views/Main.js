@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
-import { View, Dimensions, Animated, Image, SafeAreaView } from 'react-native'
+import { View, Dimensions, Animated, Image, SafeAreaView, Text } from 'react-native'
 import Overlay from '../components/overlay'
-import MainCard, { HEADER_MARGIN_TOP } from '../components/mainCard'
+import MainCard, { HEADER_MARGIN_TOP, IMAGE_MIN_SIZE } from '../components/mainCard'
 import Snackbar from '../components/snackbar'
 
 const messages = [
@@ -32,26 +32,43 @@ export default () => {
   ], {
     useNativeDriver: true,
     listener: (e) => {
-      if (e.nativeEvent.contentOffset.y < 60) {
+      if (e.nativeEvent.contentOffset.y < HEADER_MARGIN_TOP / 2) {
         ANIMATED_SCROLLVIEW.current._component.scrollTo({
           y: 0,
           animated: true
         })
-      } else if (e.nativeEvent.contentOffset.y >= 60 && e.nativeEvent.contentOffset.y < HEADER_MARGIN_TOP) {
+      } else if (e.nativeEvent.contentOffset.y >= HEADER_MARGIN_TOP / 2 &&
+        e.nativeEvent.contentOffset.y < HEADER_MARGIN_TOP) {
         ANIMATED_SCROLLVIEW.current._component.scrollTo({
-          y: 125,
+          y: HEADER_MARGIN_TOP,
           animated: true
         })
       }
     }
   })
 
+  const replacementHeaderOpacity = scrollY.interpolate({
+    inputRange: [HEADER_MARGIN_TOP + 1, HEADER_MARGIN_TOP + 1],
+    outputRange: [0, 1]
+  })
+
   return (
     <SafeAreaView style={styles.background}>
       <Overlay />
-      <View style={{ alignItems: 'center' }}>
-        <MainCard scroll={scrollY} />
-      </View>
+      <Animated.View style={[styles.replacementHeader, { opacity: replacementHeaderOpacity }]}>
+        <View style={styles.imageContainer}>
+          <Image
+            source={require('../assets/media/profile.jpg')}
+            style={{ flex: 1, width: null, height: null }}
+          />
+        </View>
+        <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center', marginTop: -2 }}>
+          <Text style={[styles.mainText, styles.textShadow]}>Alfonso Gomez</Text>
+          <Text style={[styles.subHeaderText, styles.textShadow, { marginLeft: 3, marginTop: -2 }]}>
+            Senior Javascript developer
+          </Text>
+        </View>
+      </Animated.View>
       <Animated.ScrollView
         scrollEventThrottle={16}
         contentContainerStyle={{ alignItems: 'center', width }}
@@ -73,6 +90,9 @@ export default () => {
           }
         )}
       >
+        <View style={{ alignItems: 'center' }}>
+          {<MainCard scroll={scrollY} />}
+        </View>
         <Animated.View
           style={[
             styles.banner,
@@ -99,7 +119,7 @@ export default () => {
         <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
         <View style={{ height: 500, width: 300, backgroundColor: 'transparent' }} />
       </Animated.ScrollView>
-      <Snackbar messages />
+      <Snackbar messages={messages} />
     </SafeAreaView>
   )
 }
@@ -114,5 +134,42 @@ const styles = {
   background: {
     backgroundColor: '#F5F5F5',
     flex: 1
+  },
+  replacementHeader: {
+    backgroundColor: '#1B9FC6',
+    width: '100%',
+    height: 70,
+    position: 'absolute',
+    top: 0,
+    zIndex: 4,
+    elevation: 4,
+    flexDirection: 'row'
+  },
+  imageContainer: {
+    height: IMAGE_MIN_SIZE,
+    width: IMAGE_MIN_SIZE,
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: IMAGE_MIN_SIZE / 2,
+    overflow: 'hidden',
+    marginTop: 10,
+    marginLeft: 15,
+    marginRight: 14
+  },
+  mainText: {
+    color: 'white',
+    fontSize: 20,
+    textAlign: 'center',
+    textTransform: 'uppercase'
+  },
+  subHeaderText: {
+    color: 'white',
+    fontSize: 12,
+    textAlign: 'center'
+  },
+  textShadow: {
+    textShadowColor: 'rgba(0, 0, 0, 0.65)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10
   }
 }
